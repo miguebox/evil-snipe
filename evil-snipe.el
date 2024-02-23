@@ -379,8 +379,11 @@ Goes backward if FORWARD-P is nil."
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map evil-snipe-parent-transient-map)
     (when evil-snipe-repeat-keys
-      (define-key map forward-key  #'evil-snipe-repeat)
-      (define-key map backward-key #'evil-snipe-repeat-reverse))
+      (if evil-snipe--last-direction
+          (progn (define-key map forward-key  #'evil-snipe-repeat)
+                 (define-key map backward-key #'evil-snipe-repeat-reverse))
+        (progn (define-key map forward-key    #'evil-snipe-repeat-reverse)
+               (define-key map backward-key   #'evil-snipe-repeat))))
     map))
 
 
